@@ -88,6 +88,12 @@
   @keyframes flicker { to { transform: translateX(-50%) scale(.92, 1.08) rotate(3deg); } }
   #big2.flip { animation: flip 1s ease-in-out; }
   @keyframes flip { 50% { transform: rotateY(90deg) scale(1.15); } }
+  #fs {
+    position: fixed; left: 16px; top: 16px; z-index: 5;
+    padding: 10px 16px; border-radius: 999px; border: 2px solid rgba(255,255,255,.4);
+    background: rgba(0,0,0,.25); color: var(--white); cursor: pointer;
+    font: 600 16px "Baloo 2", "ZCOOL KuaiLe", sans-serif;
+  }
   #mute {
     position: fixed; right: 16px; top: 16px; z-index: 5;
     padding: 10px 16px; border-radius: 999px; border: 2px solid rgba(255,255,255,.4);
@@ -173,6 +179,7 @@
   </div>
 </section>
 
+<button id="fs">⛶ 全屏 · Full screen</button>
 <button id="mute">🔇 静音 · Muted</button>
 <button id="replay" class="hidden">↻ 再来一次 · Again</button>
 
@@ -355,13 +362,19 @@ $("mute").addEventListener("click", e => {
   if (!muted) audio().resume();
 });
 
-$("startBtn").addEventListener("click", e => {
-  e.stopPropagation();
+const isFs = () => !!(document.fullscreenElement || document.webkitFullscreenElement);
+const canFs = !!(document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen);
+function goFullscreen() {
   const d = document.documentElement, fs = d.requestFullscreen || d.webkitRequestFullscreen;
-  try { if (fs && !document.fullscreenElement && !document.webkitFullscreenElement) { const p = fs.call(d); if (p && p.catch) p.catch(() => {}); } } catch (err) {}
-  startCountdown();
-});
-$("replay").addEventListener("click", e => { e.stopPropagation(); startCountdown(); });
+  try { if (fs && !isFs()) { const p = fs.call(d); if (p && p.catch) p.catch(() => {}); } } catch (err) {}
+}
+function updateFsBtn() { $("fs").classList.toggle("hidden", !canFs || isFs()); }
+document.addEventListener("fullscreenchange", updateFsBtn);
+document.addEventListener("webkitfullscreenchange", updateFsBtn);
+updateFsBtn();
+$("fs").addEventListener("click", e => { e.stopPropagation(); goFullscreen(); });
+$("startBtn").addEventListener("click", e => { e.stopPropagation(); goFullscreen(); startCountdown(); });
+$("replay").addEventListener("click", e => { e.stopPropagation(); goFullscreen(); startCountdown(); });
 addEventListener("pointerdown", e => {
   if (!celebrating) return;
   launch(e.clientX, e.clientY);
