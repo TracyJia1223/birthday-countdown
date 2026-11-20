@@ -58,8 +58,6 @@
     color: var(--yellow);
     text-shadow: 0 0 60px var(--glow-gold);
   }
-  #numWords { font-size: clamp(24px, 5vw, 44px); margin-top: 8px; opacity: .9; }
-  #numWords .zh { font-family: "ZCOOL KuaiLe", sans-serif; margin-right: 16px; }
   .pop { animation: pop .9s cubic-bezier(.2,1.6,.4,1); }
   @keyframes pop {
     0% { transform: scale(.2); opacity: 0; }
@@ -139,7 +137,6 @@
 
 <section class="stage hidden" id="countdown">
   <div id="num">10</div>
-  <div id="numWords"><span class="zh">十</span><span class="en">Ten</span></div>
 </section>
 
 <section class="stage hidden" id="two">
@@ -163,8 +160,6 @@
 
 <script>
 const NAME = "Maeve";
-const ZH = ["零","一","二","三","四","五","六","七","八","九","十"];
-const EN = ["Zero","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten"];
 const COLORS = ["#f4b3c2","#f3d7a1","#bcd3f5","#ffd2b8","#d8c8f0","#fbf1e4","#ffffff"];
 
 const $ = id => document.getElementById(id);
@@ -304,7 +299,6 @@ function startCountdown() {
 }
 function setNum(n) {
   const el = $("num"); el.textContent = n; el.classList.remove("pop"); void el.offsetWidth; el.classList.add("pop");
-  $("numWords").innerHTML = `<span class="zh">${ZH[n]}</span><span class="en">${EN[n]}</span>`;
   el.style.color = n <= 3 ? "var(--pink)" : "";
   beep(n);
 }
