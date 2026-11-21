@@ -155,7 +155,7 @@
 
 <section class="stage" id="start">
   <h1><span class="zh">今天是谁的大日子？</span>Whose big day is it today?</h1>
-  <button id="startBtn">开始 · Start ▶</button>
+  <button id="startBtn">开始 · Start</button>
 </section>
 
 <section class="stage hidden" id="countdown">
@@ -179,9 +179,9 @@
   </div>
 </section>
 
-<button id="fs">⛶ 全屏 · Full screen</button>
-<button id="mute">🔇 静音 · Muted</button>
-<button id="replay" class="hidden">↻ 再来一次 · Again</button>
+<button id="fs">全屏 · Full screen</button>
+<button id="mute">静音 · Muted</button>
+<button id="replay" class="hidden">再来一次 · Again</button>
 
 <script>
 const NAME = "Maeve";
@@ -358,7 +358,7 @@ function celebrate() {
 }
 $("mute").addEventListener("click", e => {
   e.stopPropagation(); muted = !muted;
-  $("mute").textContent = muted ? "🔇 静音 · Muted" : "🔊 声音 · Sound on";
+  $("mute").textContent = muted ? "静音 · Muted" : "声音 · Sound on";
   if (!muted) audio().resume();
 });
 
